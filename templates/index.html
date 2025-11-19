@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forecasting Experiment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #004080;
+    }
+    p {
+      max-width: 700px;
+      margin: 10px auto 30px;
+      line-height: 1.6;
+    }
+    .button-container {
+      margin-top: 30px;
+    }
+    button {
+      padding: 12px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #0078d7;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    .locked {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    footer {
+      color: gray;
+      font-size: 13px;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Forecasting Experiment</h1>
+
+  <p>
+    Welcome to the forecasting study exploring how people respond to <b>change</b> and <b>noise</b> when predicting data.
+    In this experiment, you’ll complete <b>six short forecasting conditions</b>, each representing a different type of market environment.
+  </p>
+  <p>
+    You’ll learn how to recognize real change versus random noise — and how to adapt your forecasts accordingly.
+  </p>
+
+  <div class="button-container">
+    <!-- Start the experiment -->
+    <a href="{{ url_for('preset') }}">
+      <button>Start Experiment (Learn About the Task)</button>
+    </a>
+
+    {% if session.get('finished_forecast') %}
+      <!-- Sandbox unlocked -->
+      <a href="{{ url_for('custom') }}">
+        <button>Open Sandbox Mode</button>
+      </a>
+    {% else %}
+      <!-- Locked sandbox -->
+      <button class="locked" title="Complete the experiment to unlock the sandbox.">
+        Sandbox Mode (Locked)
+      </button>
+    {% endif %}
+  </div>
+
+  <footer>
+    Data collected in this study is anonymous and used solely for academic research on decision-making.
+  </footer>
+</body>
+</html>

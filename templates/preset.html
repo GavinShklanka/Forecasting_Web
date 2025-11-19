@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forecasting Task – Getting Started</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f9f9f9; color: #333; text-align: center; padding: 50px; }
+    h1 { color: #004080; }
+    .content { max-width: 700px; margin: 0 auto; background-color: #fff; padding: 30px 40px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); text-align: left; }
+    h2 { color: #0078d7; margin-top: 30px; }
+    p { line-height: 1.6; }
+    .example { font-style: italic; color: #555; }
+    .field { margin-top: 20px; }
+    input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
+    .warning { margin-top: 10px; color: #b00020; }
+    button { display: inline-block; margin-top: 30px; padding: 12px 20px; background-color: #0078d7; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+    button:hover { background-color: #005fa3; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Forecasting Experiment</h1>
+
+  <div class="content">
+    <p>
+      In this experiment, you’ll act as a decision-maker forecasting future demand in several different markets.
+      Each market behaves differently — some are calm and predictable, while others are noisy or changing rapidly.
+    </p>
+
+    <h2>Noise vs. Change</h2>
+    <p><b>Noise</b> = random short-term fluctuations that don’t reflect a real shift.</p>
+    <p class="example">Example: A one-day weather blip spikes sales, but the overall trend is unchanged.</p>
+    <p><b>Change</b> = a genuine, lasting shift in average behavior (growth/decline).</p>
+    <p class="example">Example: Sales steadily rise for months as the area gains new residents.</p>
+
+    <h2>Your Goal</h2>
+    <p>
+      You will complete <b>six short conditions</b>, each with different levels of noise and change.
+      In each round, you’ll see recent data and enter your next forecast. React to meaningful shifts,
+      but avoid overreacting to random noise.
+    </p>
+
+    {% if warning %}
+      <div class="warning">{{ warning }}</div>
+    {% endif %}
+
+    <form action="{{ url_for('preset') }}" method="post" style="text-align:center; margin-top: 20px;">
+      <div class="field">
+        <label for="participant_id"><b>Participant ID</b></label>
+        <input id="participant_id" name="participant_id" type="text" placeholder="e.g., P001">
+      </div>
+      <button type="submit">Begin Experiment →</button>
+    </form>
+  </div>
+
+  <p style="margin-top: 40px;">
+    <a href="{{ url_for('index') }}">← Back to Home</a>
+  </p>
+</body>
+</html>

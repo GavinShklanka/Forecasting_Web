@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Forecasting Task</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      text-align: center;
+      padding: 40px;
+    }
+    h2, h3 {
+      color: #004080;
+    }
+    img {
+      margin: 20px 0;
+      max-width: 500px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    form {
+      margin-top: 20px;
+      display: inline-block;
+      text-align: left;
+      background-color: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 15px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #0078d7;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    .context-box {
+      max-width: 600px;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px auto;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: left;
+    }
+    .progress {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+    .feedback-box {
+      max-width: 500px;
+      margin: 20px auto;
+      background-color: #eef6ff;
+      border: 1px solid #cde1ff;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: left;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .feedback-box p {
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Forecasting Task</h1>
+  <h2>Participant: {{ participant_id }}</h2>
+  <h3>{{ name }} (Condition {{ condition_id }})</h3>
+ <p class="progress">{{ progress_text }} &nbsp;|&nbsp; Round {{ round_num }} of 4</p>
+
+
+  <div class="context-box">
+    <h4>{{ context_title }}</h4>
+    <p>{{ context_desc }}</p>
+  </div>
+
+  <p><b>σ<sub>change</sub>:</b> {{ sigma_change }} | <b>σ<sub>noise</sub>:</b> {{ sigma_noise }}</p>
+
+  <h4>Round {{ round_num }}</h4>
+  <p><b>Actual Demand:</b> {{ actual|round(2) }}</p>
+
+  {% if preview %}
+    <h4>Environment Preview</h4>
+    <img src="data:image/png;base64,{{ preview }}" alt="Preview Plot">
+  {% endif %}
+  
+{% if last_actual is defined and last_actual is not none %}
+  <div class="feedback-box">
+    <h4>Last Round Feedback</h4>
+    <p><b>Previous Actual Demand:</b> {{ "%.2f"|format(last_actual) }}</p>
+    <p><b>Your Previous Forecast:</b> {{ "%.2f"|format(last_forecast) }}</p>
+    <p><b>Error (Actual − Forecast):</b> {{ "%.2f"|format(last_error) }}</p>
+  </div>
+{% endif %}
+
+  <form method="post" action="{{ url_for('forecast') }}">
+    <label>Your forecast for the next round:</label>
+    <input type="number" name="forecast" step="0.1" required>
+    <button type="submit">Submit Forecast</button>
+  </form>
+
+  <p style="margin-top: 40px;">
+    <a href="{{ url_for('index') }}">← Return to Home</a>
+  </p>
+</body>
+</html>

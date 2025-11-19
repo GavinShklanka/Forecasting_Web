@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Experiment Results</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #004080;
+    }
+    h3 {
+      margin-top: 40px;
+      color: #0078d7;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #e8f1fb;
+      font-weight: bold;
+    }
+    .chart-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .chart-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 10px 20px;
+      text-align: center;
+    }
+    .chart-card img {
+      max-width: 320px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+    .sandbox-link {
+      margin-top: 30px;
+      display: inline-block;
+      background-color: #0078d7;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .sandbox-link:hover {
+      background-color: #005fa3;
+    }
+    .note {
+      font-size: 13px;
+      color: #555;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Experiment Results</h1>
+
+  {% if message %}
+    <p><i>{{ message }}</i></p>
+  {% endif %}
+
+  {% if table %}
+    <h3>Raw Data (Your Entries)</h3>
+    {{ table|safe }}
+  {% endif %}
+
+  {% if summary %}
+    <h3>Condition Summary (Human vs Optimal Model)</h3>
+    {{ summary|safe }}
+    <p class="note">
+      α* = Optimal model reaction | αₕ = Your observed reaction |
+      “Behavior” shows if you over- or under-reacted to system changes.
+    </p>
+  {% endif %}
+
+  {% if charts %}
+    <h3>Forecast vs Actual by Condition</h3>
+    <div class="chart-container">
+      {% for chart in charts %}
+        <div class="chart-card">
+          <h4>Condition {{ chart.condition }}</h4>
+          <img src="data:image/png;base64,{{ chart.img }}" alt="Forecast Chart for Condition {{ chart.condition }}">
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if session and session.get('finished_forecast') %}
+    <div style="margin-top: 50px;">
+      <h3>🎉 Sandbox Mode Unlocked!</h3>
+      <p>You’ve completed all forecasting conditions. Explore freely below:</p>
+      <a href="{{ url_for('custom') }}" class="sandbox-link">Open Sandbox</a>
+    </div>
+  {% endif %}
+
+  <p style="margin-top: 50px;">
+    <a href="{{ url_for('index') }}">← Back to Home</a>
+  </p>
+</body>
+</html>

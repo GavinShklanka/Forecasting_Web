@@ -1,0 +1,4 @@
+body { font-family: Arial; margin: 40px; }
+h1, h2, h3 { color: #333; }
+button { margin: 8px; padding: 6px 14px; }
+img { max-width: 600px; border: 1px solid #ddd; border-radius: 5px; }
