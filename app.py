@@ -10,11 +10,11 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import secrets
-from flask_session import Session  # ✅ filesystem session fix
+from flask_session import Session  
 
 app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config["SESSION_TYPE"] = "filesystem"  # ✅ store sessions on disk
+app.config["SESSION_TYPE"] = "filesystem"  
 Session(app)
 
 # --- Secure session setup
@@ -178,7 +178,7 @@ def start_condition():
     )
 
 
-# ✅ Define results BEFORE forecast
+#Define results BEFORE forecast
 @app.route("/results")
 def results():
     participant_id = session.get("participant_id", "unknown")
@@ -214,7 +214,7 @@ def forecast():
     session["round"] = session.get("round", 0) + 1
     round_count = len(forecasts)
 
-    print(f"🔄 Round count for condition {condition_id}: {round_count}")
+    print(f"Round count for condition {condition_id}: {round_count}")
 
     last_actual = last_forecast = last_error = None
     if round_count > 1 and len(demand) >= round_count:
@@ -227,7 +227,7 @@ def forecast():
         session["current_condition_index"] = session.get("current_condition_index", 0) + 1
         session["round"] = 0
         session.modified = True
-        print(f"✅ Completed condition {condition_id}. Next index = {session['current_condition_index']}")
+        print(f"Completed condition {condition_id}. Next index = {session['current_condition_index']}")
 
         for key in ["forecasts", "demand", "preview_img"]:
             session.pop(key, None)
@@ -282,10 +282,10 @@ def save_condition_results():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"data/participant_{participant_id}_condition_{condition_id}_{timestamp}.csv"
     df.to_csv(filename, index=False)
-    print(f"✅ Saved: {filename}")
+    print(f"Saved: {filename}")
 
 
-# ✅ NEW: Sandbox Mode placeholder route
+# NEW: Sandbox Mode placeholder route
 @app.route("/custom")
 def custom():
     return render_template("custom.html")
